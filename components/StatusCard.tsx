@@ -65,7 +65,7 @@ export default function StatusCard({ data }: StatusCardProps) {
             DEPARTS {departDate}
           </p>
           <h4 className="text-[16px] leading-5 font-inter font-bold text-white">
-            {departTime} · Platform 9
+            {departTime} · Platform N/A
           </h4>
         </div>
       </div>
