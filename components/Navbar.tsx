@@ -18,7 +18,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full bg-white ">
+    <nav className="fixed z-99 bottom-0 w-full bg-white ">
       <ul className="flex justify-between px-5 py-2 ">
         {navLinks.map((navLink: navLinksType) => {
           const Icon = navLink.icon;

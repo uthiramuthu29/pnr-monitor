@@ -3,7 +3,7 @@ import { UserRound } from "lucide-react";
 
 export default function Header() {
   return (
-    <div className="bg-[rgba(250,248,255,0.85)] p-4 flex justify-between items-center ">
+    <header className="bg-[rgba(250,248,255,0.85)] p-4 flex justify-between items-center ">
       <div className="logo flex gap-2 ">
         <Image src="/PNR-Monitor-Logo.svg" alt="PNR Monitor" width={25} height={25} />
         <div className="header-content">
@@ -14,6 +14,6 @@ export default function Header() {
       <div className="bg-navy-dark p-2.5 rounded-full " >
         <UserRound className="text-white " size={16} />
       </div>
-    </div>
+    </header>
   );
 }

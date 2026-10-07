@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PageHeading from "@/components/PageHeading";
 import StatusCard from "@/components/StatusCard";
+import AddPnr from "@/components/AddPnr";
 import { Search, Clipboard, Plus } from "lucide-react";
 
 import type { PnrResponse } from "@/types/pnr";
@@ -10,6 +11,8 @@ import type { PnrResponse } from "@/types/pnr";
 export default function Home() {
   const [pnr, setPnr] = useState("");
   const [error, setError] = useState("");
+
+  const [addPnr, setAddPnr] = useState(false);
 
   const [pnrData, setPnrData] = useState<PnrResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -75,11 +78,16 @@ export default function Home() {
           title="Your PNRs"
           desc="3 journeys currently being tracked"
         />
-        <div className="flex items-center text-white bg-[#0058BE] text-[14px] font-bold font-inter leading-4.5 gap-1.5 px-5 py-3 rounded-4xl ">
+        <button
+          onClick={() => setAddPnr(true)}
+          className="flex items-center text-white bg-[#0058BE] text-[14px] font-bold font-inter leading-4.5 gap-1.5 px-5 py-3 rounded-4xl "
+        >
           <Plus size={16} />
           Add PNR
-        </div>
+        </button>
       </div>
+
+      {addPnr && <AddPnr />}
 
       <div className="flex bg-light-blue px-4 py-2.5 items-center gap-2 rounded-2xl mb-4 ">
         <div className="bg-green-600 rounded-full w-2.5 h-2.5 "></div>
@@ -107,7 +115,9 @@ export default function Home() {
           onClick={isValidPnr ? handleSubmit : handlePaste}
           className="flex items-center text-[11px] font-bold font-inter leading-3.5 text-navy-dark bg-light-blue rounded-3xl px-3.5 py-2.5 gap-1 uppercase absolute top-2 right-4 "
         >
-          {loading ? ( "Checking...." ) : isValidPnr ? (
+          {loading ? (
+            "Checking...."
+          ) : isValidPnr ? (
             <>
               <Search size={15} />
               Get Status
@@ -124,7 +134,6 @@ export default function Home() {
         <p className="mt-2 px-2 text-xs font-inter text-red-500">{error}</p>
       )}
 
-      
       {pnrData && <StatusCard data={pnrData.data} />}
     </section>
   );
