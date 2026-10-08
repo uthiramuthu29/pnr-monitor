@@ -72,7 +72,7 @@ export default function Home() {
   };
 
   return (
-    <section className="relative">
+    <section className="">
       <div className="flex justify-between items-baseline">
         <PageHeading
           title="Your PNRs"

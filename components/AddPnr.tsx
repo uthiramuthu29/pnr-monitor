@@ -3,7 +3,7 @@ import StepsCard from "@/components/StepsCard";
 
 export default function AddPnr() {
   return (
-    <div className="absolute top-0 z-40 bg-[rgb(250,248,255)] h-full w-full ">
+    <div className="absolute inset-0 z-40 bg-[rgb(250,248,255)] overflow-y-auto p-4 ">
       <PageHeading
         title="Add New PNR"
         desc="Start automated polling & instant alerts on berth or RAC changes."

@@ -13,6 +13,7 @@
 
 body{
     background-color: #FAF8FF;
+    font-family: "Inter", sans-serif;
 }
 
 input:focus-visible{
