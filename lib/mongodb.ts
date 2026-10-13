@@ -25,10 +25,6 @@ function getEnvValue(key: string): string {
   return process.env[key] || "";
 }
 
-// Fallback direct non-SRV connection string (immune to Windows querySrv DNS issues)
-const DIRECT_FALLBACK_URI =
-  "mongodb://uthiramuthusp29_db_user:xBBAFkxkLwxaEVGN@ac-waziytc-shard-00-00.bibwod7.mongodb.net:27017,ac-waziytc-shard-00-01.bibwod7.mongodb.net:27017,ac-waziytc-shard-00-02.bibwod7.mongodb.net:27017/?ssl=true&replicaSet=atlas-5j86pu-shard-0&authSource=admin";
-
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -48,7 +44,13 @@ if (!global.mongooseCache) {
 }
 
 export async function connectDB(): Promise<typeof mongoose> {
-  const uri = getEnvValue("MONGODB_URI") || process.env.MONGODB_URI || DIRECT_FALLBACK_URI;
+  const uri = getEnvValue("MONGODB_URI") || process.env.MONGODB_URI;
+
+  if (!uri) {
+    throw new Error(
+      "MONGODB_URI is not defined. Please configure MONGODB_URI in your environment variables (.env.local or Vercel Settings)."
+    );
+  }
 
   if (cached.conn) {
     return cached.conn;
@@ -59,25 +61,9 @@ export async function connectDB(): Promise<typeof mongoose> {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose
-      .connect(uri, opts)
-      .catch((primaryErr) => {
-        // If querySrv fails on Windows/ISP DNS, automatically fallback to direct replica set connection
-        if (
-          primaryErr &&
-          (primaryErr.message?.includes("querySrv") ||
-            primaryErr.code === "ECONNREFUSED")
-        ) {
-          console.warn(
-            "[MongoDB] SRV DNS resolution failed on Windows, falling back to direct replica set connection...",
-          );
-          return mongoose.connect(DIRECT_FALLBACK_URI, opts);
-        }
-        throw primaryErr;
-      })
-      .then((mongooseInstance) => {
-        return mongooseInstance;
-      });
+    cached.promise = mongoose.connect(uri, opts).then((mongooseInstance) => {
+      return mongooseInstance;
+    });
   }
 
   try {
