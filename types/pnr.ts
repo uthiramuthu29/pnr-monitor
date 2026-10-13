@@ -34,7 +34,33 @@ export type PnrData = {
 };
 
 export type PnrResponse = {
-  success: boolean;
+  success?: boolean;
   data: PnrData;
-  generatedTimeStamp: number;
+  generatedTimeStamp?: number;
+  error?: string;
+};
+
+export type TrackedRecipient = {
+  name: string;
+  channel?: "email" | "telegram";
+  email?: string;
+  telegramChatId?: string;
+  phone?: string;
+};
+
+export type TrackedPnr = {
+  pnrNumber: string;
+  frequency: string;
+  scheduleType?: "once_daily" | "twice_daily" | "weekly";
+  notificationTimes?: string[];
+  weeklyDays?: { day: string; time: string }[];
+  recipients?: TrackedRecipient[];
+  lastChecked?: string;
+  lastNotifiedAt?: string;
+  lastEmailSentAt?: string;
+  lastTelegramSentAt?: string;
+  lastSmsSentAt?: string;
+  lastStatusSummary?: string;
+  data?: PnrData;
+  createdAt: string;
 };
